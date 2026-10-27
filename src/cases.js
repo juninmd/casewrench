@@ -31,7 +31,10 @@ const TARGETS = Object.keys(CONVERTERS);
 /** Convert a string to a target case. Unknown target → original string. */
 function convert(str, target) {
   const fn = CONVERTERS[target];
-  return fn ? fn(splitWords(str)) : str;
+  if (!fn) return str;
+  const words = splitWords(str);
+  // Separator-only input (e.g. "---", "   ") has no words: keep it, never erase it.
+  return words.length ? fn(words) : String(str);
 }
 
 module.exports = { splitWords, convert, TARGETS, CONVERTERS };

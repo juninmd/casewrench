@@ -30,6 +30,13 @@ test("round trips through canonical forms", () => {
   expect(convert(convert(original, "constant"), "camel")).toBe(original);
 });
 
+test("separator-only selections are kept, not erased", () => {
+  expect(convert("___", "camel")).toBe("___");
+  expect(convert("   ", "snake")).toBe("   ");
+  expect(convert("...", "title")).toBe("...");
+  expect(convert("", "snake")).toBe("");
+});
+
 test("unknown target returns input unchanged", () => {
   expect(convert("abc", "nope")).toBe("abc");
 });
